@@ -1,12 +1,14 @@
+/*jshint esversion: 6 */
+
 /*
  * Slideshow Configuration
  */
 // One of https://github.com/isagalaev/highlight.js/tree/master/src/styles
-const HIGHLIGHT_THEME = 'github';
+const HIGHLIGHT_THEME = 'railscasts';
 
 // See options at https://daneden.github.io/animate.css/
 const TRANSITIONS = {
-  NEXT: 'bounceInUp',
+  NEXT: 'slideInRight',
   PREV: 'slideInLeft',
   INCREMENTAL: 'fadeIn'
 };
@@ -26,9 +28,8 @@ function getTitle(element) {
 // Create the slideshow on the page.
 const slideshow = remark.create({
   highlightStyle: HIGHLIGHT_THEME,
-  navigation: {
-    scroll: false
-  }
+  navigation: { scroll: false },
+  ratio: '16:9',
 });
 
 // Set up transitions between slides by monitoring which direction we are
@@ -42,7 +43,7 @@ slideshow.on('beforeShowSlide', (next) => {
   const nextTitle = getTitle(nextDiv);
   const prevTitle = getTitle(prevDiv);
 
-  let direction = nextIndex > prevIndex ? TRANSITIONS.NEXT : TRANSITIONS.PREV
+  let direction = nextIndex > prevIndex ? TRANSITIONS.NEXT : TRANSITIONS.PREV;
 
   if (prevTitle === nextTitle) {
     // Special case, either incremental slides or similar enough.
@@ -64,6 +65,10 @@ const term = document.querySelector('#terminal');
 function toggleTerm() {
   term.classList.toggle('slideInDown');
   term.classList.toggle('slideOutUp');
+}
+
+function reconnectTerm() {
+  document.getElementById('terminal-frame').contentWindow.location.reload();
 }
 
 // Toggle either from keypress or pressing the close button.
@@ -94,7 +99,9 @@ window.addEventListener('keyup', (event) => {
 });
 
 // Toggle terminal when pressing the `close` button.
-term.querySelector('a.btn').addEventListener('click', toggleTerm);
+term.querySelector('a.close').addEventListener('click', toggleTerm);
+// Reconnect terminal when pressing the `reconnect button
+term.querySelector('a.reconnect').addEventListener('click', reconnectTerm);
 
 window.addEventListener('load', () => {
   setTimeout(() => {

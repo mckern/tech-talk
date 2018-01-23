@@ -37,6 +37,12 @@ socket.on('connect', function() {
         term.prefs_.set('ctrl-c-copy', true);
         term.prefs_.set('ctrl-v-paste', true);
         term.prefs_.set('use-default-window-copy', true);
+        term.prefs_.set('audible-bell-sound', '')
+
+        term.scrollPort_.screen_.setAttribute('spellcheck', 'false');
+        term.scrollPort_.screen_.setAttribute('autocorrect', 'false');
+        term.scrollPort_.screen_.setAttribute('autocomplete', 'false');
+        term.scrollPort_.screen_.setAttribute('contenteditable', 'false');
 
         term.runCommandClass(Wetty, document.location.hash.substr(1));
         socket.emit('resize', {

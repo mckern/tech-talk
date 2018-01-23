@@ -1,18 +1,48 @@
-@import url('https://fonts.googleapis.com/css?family=Raleway:400,700');
-@import url(https://fonts.googleapis.com/css?family=Lato:400,700,400italic);
-@import url(https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
+@import url('https://fonts.googleapis.com/css?family=Asap:400,400i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,400i,700&subset=latin');
+
 
 body {
-  font-family: 'Lato', 'Arial', sans-serif;
+  font-family: Asap, -apple-system, "Helvetica Neue", sans-serif;
 }
 
-h1, h2, h3 {
-  font-family: 'Raleway', 'Helvetica', sans-serif;
-  font-weight: normal;
+h1, h2, h3, h4, h5, h6 {
+  font-family: Asap, -apple-system, "Helvetica Neue", sans-serif;
 }
 
-a {
-  color: #0086b3;
+.site-title, h1 {
+    font-size: 1.7em
+}
+
+h2 {
+    font-size: 1.5em
+}
+
+.emphasis, h3, h4, h5, h6 {
+    font-size: 1.25em;
+    font-weight: 500;
+    color: rgba(38, 50, 56, 0.75);
+}
+
+.list-title,
+.home-section-title,
+h4 {
+    font-size: 1.10em;
+}
+
+h5 {
+    font-size: 1.0em;
+}
+
+h6 {
+    font-size: .75em;
+}
+
+a, .entry-content a:visited {
+  color: #428bca;
+  text-decoration: none;
+  border-bottom: 0;
 }
 
 table {
@@ -39,22 +69,26 @@ code.remark-inline-code {
   border-radius: 3px;
 }
 
+code, kbd, tt, var {
+  font-family: "Source Code Pro", Consolas, Monaco, "Andale Mono", monospace;
+}
+
 kbd {
   display: inline-block;
-	min-width: 1em;
-	padding: .2em .3em;
-	font: normal .85em/1 "Lato", Arial, sans-serif;
-	text-align: center;
-	text-decoration: none;
-	border-radius: .3em;
-	border: none;
-	cursor: default;
-	user-select: none;
+  min-width: 1em;
+  padding: .2em .3em;
+  font: normal .85em/1;
+  text-align: center;
+  text-decoration: none;
+  border-radius: .3em;
+  border: none;
+  cursor: default;
+  user-select: none;
   background: rgb(80, 80, 80);
   background: linear-gradient(to bottom, rgb(60, 60, 60), rgb(80, 80, 80));
-	color: rgb(250, 250, 250);
-	text-shadow: -1px -1px 0 rgb(70, 70, 70);
-	box-shadow: inset 0 0 1px rgb(150, 150, 150), inset 0 -.05em .4em rgb(80, 80, 80), 0 .1em 0 rgb(30, 30, 30), 0 .1em .1em rgba(0, 0, 0, .3);
+  color: rgb(250, 250, 250);
+  text-shadow: -1px -1px 0 rgb(70, 70, 70);
+  box-shadow: inset 0 0 1px rgb(150, 150, 150), inset 0 -.05em .4em rgb(80, 80, 80), 0 .1em 0 rgb(30, 30, 30), 0 .1em .1em rgba(0, 0, 0, .3);
 }
 
 .preload * {
@@ -70,15 +104,22 @@ kbd {
   border-radius: 3px;
 }
 
+code.hljs, code.remark-code {
+  background: #f2f2f2;
+  padding: .5em;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
 .remark-container {
-  background-color: #333;
+  background-color: #fff;
 }
 
 .remark-slide-content {
   color: #000;
   background-color: #fff;
   font-size: 25px;
-  border-top: 6px solid #0086b3;
 }
 
 .remark-slide-content h1 {
@@ -86,11 +127,13 @@ kbd {
 }
 
 .remark-slide-scaler {
-  box-shadow: 0 0 30px #888;
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
 }
 
 .remark-code, .remark-inline-code {
-  font-family: 'Ubuntu Mono';
+  font-family: 'Source Code Pro';
   font-size: 19pt;
 }
 
@@ -121,7 +164,8 @@ kbd {
 
 #terminal a.btn {
   display: inline-block;
-  width: 100%;
+  float: left;
+  width: 50%;
   height: 5vh;
   margin: 0;
   background: #000;

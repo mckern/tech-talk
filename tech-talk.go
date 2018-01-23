@@ -36,6 +36,7 @@ var sshType *string
 var sshHost *string
 var key *string
 var pass *string
+var port *int
 var noBrowser *bool
 var version *bool
 
@@ -144,6 +145,7 @@ func main() {
 
 	key = flag.StringP("key", "k", keyDefault, "SSH private key `path` (for internal SSH)")
 	pass = flag.StringP("pass", "p", "", "SSH `password` (for internal SSH)")
+	port = flag.IntP("port", "P", 4000, "TCP port to listen on")
 
 	// Misc options
 	noBrowser = flag.BoolP("no-browser", "n", false, "Do not automatically open browser")
@@ -181,16 +183,16 @@ func main() {
 				&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, AssetInfo: AssetInfo, Prefix: "www"})))
 
 	s := &http.Server{
-		Addr:           ":4000",
+		Addr:           fmt.Sprintf(":%d", *port),
 		ReadTimeout:    10 * time.Second,
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 
-	log.Println("Server started on http://localhost:4000/")
+	log.Printf("Server started on http://127.0.0.1:%d/", *port)
 
 	if !*noBrowser && check_access("/usr/bin/open") {
-		c := exec.Command("/usr/bin/open", "http://localhost:4000")
+		c := exec.Command("/usr/bin/open", fmt.Sprintf("http://127.0.0.1:%d/", *port))
 		c.Start()
 	}
 

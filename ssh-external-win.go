@@ -2,7 +2,7 @@
 
 package main
 
-const CAN_USE_EXTERNAL = false
+const canUseExternal = false
 
 func externalSSH(so interface{}) {
 	// Not available on Windows.

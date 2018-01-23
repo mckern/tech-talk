@@ -14,16 +14,16 @@ import (
 	"github.com/kr/pty"
 )
 
-const CAN_USE_EXTERNAL = true
+const canUseExternal = true
 
 // Resize a PTY using system calls. This functionality / utility is missing
 // from the kr/pty project so it is added here.
 func resizePty(t *os.File, row, col int) error {
 	ws := struct {
-		ws_row    uint16
-		ws_col    uint16
-		ws_xpixel uint16
-		ws_ypixel uint16
+		wsRow    uint16
+		wsCol    uint16
+		wsXpixel uint16
+		wsYpixel uint16
 	}{
 		uint16(row),
 		uint16(col),
@@ -61,14 +61,14 @@ func externalSSH(so socketio.Socket) {
 	}
 
 	// If SSH was explicitly set, then prefer it.
-	if *sshHost != DEFAULT_HOST {
+	if *sshHost != defaultHost {
 		log.Printf("Using external SSH client for %s\n", *sshHost)
 		c = exec.Command("/usr/bin/ssh", args...)
 	} else {
 		// On Mac we should have `/usr/bin/login` which does not require root,
 		// so there we use it. Otherwise just start an SSH session with the
 		// current user on localhost to get a shell without root.
-		if check_access("/usr/bin/login") {
+		if checkAccess("/usr/bin/login") {
 			log.Printf("Using /usr/bin/login for shell as %s\n", currentUser.Username)
 			c = exec.Command("/usr/bin/login", "-f", currentUser.Username)
 		} else {

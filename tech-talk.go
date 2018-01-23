@@ -19,13 +19,13 @@ import (
 	"github.com/googollee/go-socket.io"
 )
 
-type TemplateValues struct {
+type templateValues struct {
 	Prefix   string
 	Markdown string
 }
 
-const DEFAULT_HOST = "localhost"
-const VERSION = "1.2.0"
+const defaultHost = "localhost"
+const techTalkVersion = "1.2.0"
 
 var indexTemplate *template.Template
 var socketServer *socketio.Server
@@ -41,7 +41,7 @@ var noBrowser *bool
 var version *bool
 
 // Checks if a file exists and can be accessed.
-func check_access(filename string) bool {
+func checkAccess(filename string) bool {
 	_, err := os.Stat(filename)
 	return err == nil
 }
@@ -70,7 +70,7 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var data TemplateValues
+	var data templateValues
 
 	// Read the file on each request so that updates get applied when working
 	// on the slideshow.
@@ -105,7 +105,7 @@ func createSocketServer() {
 	socketServer.On("connection", func(so socketio.Socket) {
 		log.Printf("Terminal connected from %s\n", so.Request().RemoteAddr)
 
-		if *sshType == "internal" || CAN_USE_EXTERNAL == false {
+		if *sshType == "internal" || canUseExternal == false {
 			log.Println("Using internal SSH client")
 			internalSSH(so)
 		} else {
@@ -132,14 +132,14 @@ func main() {
 	}
 
 	// Connection options
-	sshHost = flag.StringP("host", "H", DEFAULT_HOST, "SSH connection [user@]`hostname`[:port]")
+	sshHost = flag.StringP("host", "H", defaultHost, "SSH connection [user@]`hostname`[:port]")
 	sshType = flag.StringP("ssh", "s", "auto", "SSH `method` [auto, internal]")
 
 	// Auth options
 	keyDefault := ""
 
 	idRsaPath := path.Join(currentUser.HomeDir, ".ssh", "id_rsa")
-	if check_access(idRsaPath) {
+	if checkAccess(idRsaPath) {
 		keyDefault = idRsaPath
 	}
 
@@ -155,12 +155,12 @@ func main() {
 	args := flag.Args()
 
 	if *version {
-		fmt.Printf("tech-talk: %s\n", VERSION)
+		fmt.Printf("tech-talk: %s\n", techTalkVersion)
 		return
 	}
 
 	if len(args) > 0 {
-		if !check_access(args[0]) {
+		if !checkAccess(args[0]) {
 			log.Fatalf("Cannot access %s", args[0])
 		}
 
@@ -191,7 +191,7 @@ func main() {
 
 	log.Printf("Server started on http://127.0.0.1:%d/", *port)
 
-	if !*noBrowser && check_access("/usr/bin/open") {
+	if !*noBrowser && checkAccess("/usr/bin/open") {
 		c := exec.Command("/usr/bin/open", fmt.Sprintf("http://127.0.0.1:%d/", *port))
 		c.Start()
 	}

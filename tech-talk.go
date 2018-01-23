@@ -1,8 +1,8 @@
 package main
 
 import (
-	"flag"
 	"fmt"
+	flag "github.com/spf13/pflag"
 	"io"
 	"io/ioutil"
 	"log"
@@ -37,6 +37,7 @@ var sshHost *string
 var key *string
 var pass *string
 var noBrowser *bool
+var version *bool
 
 // Checks if a file exists and can be accessed.
 func check_access(filename string) bool {
@@ -130,8 +131,8 @@ func main() {
 	}
 
 	// Connection options
-	sshHost = flag.String("host", DEFAULT_HOST, "SSH connection [user@]`hostname`[:port]")
-	sshType = flag.String("ssh", "auto", "SSH `method` [auto, internal]")
+	sshHost = flag.StringP("host", "H", DEFAULT_HOST, "SSH connection [user@]`hostname`[:port]")
+	sshType = flag.StringP("ssh", "s", "auto", "SSH `method` [auto, internal]")
 
 	// Auth options
 	keyDefault := ""
@@ -141,13 +142,12 @@ func main() {
 		keyDefault = idRsaPath
 	}
 
-	key = flag.String("key", keyDefault, "SSH private key `path` (for internal SSH)")
-	pass = flag.String("pass", "", "SSH `password` (for internal SSH)")
+	key = flag.StringP("key", "k", keyDefault, "SSH private key `path` (for internal SSH)")
+	pass = flag.StringP("pass", "p", "", "SSH `password` (for internal SSH)")
 
 	// Misc options
-	noBrowser = flag.Bool("n", false, "Do not automatically open browser")
-	version := flag.Bool("v", false, "Alias for --version")
-	flag.BoolVar(version, "version", false, "Print program version and exit")
+	noBrowser = flag.BoolP("no-browser", "n", false, "Do not automatically open browser")
+	version = flag.BoolP("version", "v", false, "Print program version and exit")
 
 	flag.Parse()
 	args := flag.Args()

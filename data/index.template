@@ -6,6 +6,7 @@
     <link rel="icon" type="image/png" href="/static/favicon.png" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
     <link rel="stylesheet" href="/static/style.css" />
+    <link rel="stylesheet" href="/overrides.css" />
   </head>
   <body class="preload">
     <textarea id="source">
@@ -13,11 +14,11 @@
 {{ .Markdown }}
     </textarea>
     <div id="terminal" class="animated slideOutUp">
-      <iframe id="terminal-frame" style="background: #000; opacity: 0.98;" seamless src="/static/wetty/index.html"></iframe>
+      <iframe id="terminal-frame" seamless src="/static/wetty/index.html"></iframe>
       <a class="btn close">Close</a>
       <a class="btn reconnect">Reconnect</a>
     </div>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/remark/0.14.0/remark.min.js"></script>
+    <script type="text/javascript" src="/static/remark.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured"></script>
     <script type="text/javascript" src="/static/script.js"></script>
   </body>

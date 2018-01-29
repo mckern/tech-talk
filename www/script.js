@@ -13,6 +13,14 @@ const TRANSITIONS = {
   INCREMENTAL: 'fadeIn'
 };
 
+ // hack to track any windows we clone, so we can send commands between presenter mode
+ // and the slide deck
+const OPENEDWINDOWS = [];
+// window._open = window.open; // saving original function
+// window.open = function(url,name,params){
+//   OPENEDWINDOWS.push(window._open(url,name,params));
+// }
+
 // Get the first title element of a slide and return its text content.
 function getTitle(element) {
   const header = element.querySelector('h1, h2, h3, h4, h5');
@@ -30,6 +38,7 @@ const slideshow = remark.create({
   highlightStyle: HIGHLIGHT_THEME,
   navigation: { scroll: false },
   ratio: '16:9',
+  cloneTarget: "__blank"
 });
 
 // Set up transitions between slides by monitoring which direction we are
@@ -67,6 +76,13 @@ function toggleTerm() {
   term.classList.toggle('slideOutUp');
 }
 
+function toggleAllTerms() {
+  toggleTerm();
+  if (slideshow.clone && !slideshow.clone.closed) {
+    slideshow.clone.toggleTerm();
+  }
+}
+
 function reconnectTerm() {
   document.getElementById('terminal-frame').contentWindow.location.reload();
 }
@@ -75,7 +91,8 @@ function reconnectTerm() {
 window.addEventListener('keyup', (event) => {
   //console.log(event);
   if (event.keyCode === 192 /* Key: ~ */) {
-    toggleTerm();
+    // toggleTerm();
+    toggleAllTerms();
 
     // If there is a selection, send it to the terminal. To make
     // the code examples a bit nicer, we don't need a `\` at the end
@@ -99,7 +116,8 @@ window.addEventListener('keyup', (event) => {
 });
 
 // Toggle terminal when pressing the `close` button.
-term.querySelector('a.close').addEventListener('click', toggleTerm);
+// term.querySelector('a.close').addEventListener('click', toggleTerm)
+term.querySelector('a.close').addEventListener('click', toggleAllTerms);
 // Reconnect terminal when pressing the `reconnect button
 term.querySelector('a.reconnect').addEventListener('click', reconnectTerm);
 

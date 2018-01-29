@@ -6,8 +6,11 @@ PHONY: bindata.go
 bindata.go:
 	$(GOPATH)/bin/go-bindata data www/...
 
-build: bindata.go
+tech-talk build: bindata.go
 	go build
+
+install: tech-talk
+	go install
 
 clean:
 	@$(RM) -v bindata.go tech-talk

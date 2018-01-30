@@ -93,7 +93,7 @@ function reconnectTerm() {
 // Toggle either from keypress or pressing the close button.
 window.addEventListener('keyup', (event) => {
   //console.log(event);
-  if (event.keyCode == 192 && (event.ctrlKey || event.metaKey) /* Key: Cmd + ~ */) {
+  if (event.keyCode == 192 /* Key: ~ */) {
     // toggleTerm();
     toggleAllTerms();
 

@@ -4,61 +4,15 @@ package main
 
 import (
 	"log"
-	"os"
 	"os/exec"
-	"strings"
-	"syscall"
-	"unsafe"
 
 	"github.com/googollee/go-socket.io"
 	"github.com/kr/pty"
 )
 
-const canUseExternal = true
-
-// Resize a PTY using system calls. This functionality / utility is missing
-// from the kr/pty project so it is added here.
-func resizePty(t *os.File, row, col int) error {
-	ws := struct {
-		wsRow    uint16
-		wsCol    uint16
-		wsXpixel uint16
-		wsYpixel uint16
-	}{
-		uint16(row),
-		uint16(col),
-		0,
-		0,
-	}
-
-	_, _, errno := syscall.Syscall(
-		syscall.SYS_IOCTL,
-		t.Fd(),
-		syscall.TIOCSWINSZ,
-		uintptr(unsafe.Pointer(&ws)),
-	)
-	if errno != 0 {
-		return syscall.Errno(errno)
-	}
-	return nil
-}
-
 // Connect to an external SSH client (or other external login shell)
-func externalSSH(so socketio.Socket) {
+func externalScreen(so socketio.Socket) {
 	var c *exec.Cmd
-
-	var args []string
-
-	parts := strings.Split(*sshHost, ":")
-	if len(parts) == 1 {
-		args = append(args, parts[0])
-	} else if len(parts) == 2 {
-		args = append(args, parts[0])
-		args = append(args, "-p")
-		args = append(args, parts[1])
-	} else {
-		log.Panicf("Not sure what to do with host: ", *sshHost)
-	}
 
 	screenName := "demo"
 

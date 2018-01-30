@@ -33,6 +33,7 @@ var socketServer *socketio.Server
 var mdFilename string
 var currentUser *user.User
 
+var screen *bool
 var sshType *string
 var sshHost *string
 var key *string
@@ -105,12 +106,16 @@ func createSocketServer() {
 
 	socketServer.On("connection", func(so socketio.Socket) {
 		log.Printf("Terminal connected from %s\n", so.Request().RemoteAddr)
-
-		if *sshType == "internal" || canUseExternal == false {
-			log.Println("Using internal SSH client")
-			internalSSH(so)
+		if *screen == true {
+			log.Println("Using local screen session 'demo'")
+			externalScreen(so)
 		} else {
-			externalSSH(so)
+			if *sshType == "internal" || canUseExternal == false {
+				log.Println("Using internal SSH client")
+				internalSSH(so)
+			} else {
+				externalSSH(so)
+			}
 		}
 	})
 
@@ -133,6 +138,7 @@ func main() {
 	}
 
 	// Connection options
+	screen = flag.BoolP("screen", "S", false, "Use local 'demo' screen session")
 	sshHost = flag.StringP("host", "H", defaultHost, "SSH connection [user@]`hostname`[:port]")
 	sshType = flag.StringP("ssh", "s", "auto", "SSH `method` [auto, internal]")
 

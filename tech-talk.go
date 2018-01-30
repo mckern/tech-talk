@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	flag "github.com/spf13/pflag"
 	"io"
 	"io/ioutil"
 	"log"
@@ -15,6 +14,8 @@ import (
 	"text/template"
 	"time"
 
+	flag "github.com/spf13/pflag"
+
 	"github.com/elazarl/go-bindata-assetfs"
 	"github.com/googollee/go-socket.io"
 )
@@ -25,7 +26,7 @@ type templateValues struct {
 }
 
 const defaultHost = "localhost"
-const techTalkVersion = "1.2.0"
+const techTalkVersion = "1.3.0"
 
 var indexTemplate *template.Template
 var socketServer *socketio.Server

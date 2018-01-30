@@ -10,7 +10,14 @@
 [[projects]]
   branch = "master"
   name = "github.com/googollee/go-engine.io"
-  packages = [".","message","parser","polling","transport","websocket"]
+  packages = [
+    ".",
+    "message",
+    "parser",
+    "polling",
+    "transport",
+    "websocket"
+  ]
   revision = "80ae0e43aca17b4c5a6834999d0f2eaa16b9afda"
 
 [[projects]]
@@ -40,8 +47,15 @@
 [[projects]]
   branch = "master"
   name = "golang.org/x/crypto"
-  packages = ["curve25519","ed25519","ed25519/internal/edwards25519","internal/chacha20","poly1305","ssh"]
-  revision = "3d37316aaa6bd9929127ac9a527abf408178ea7b"
+  packages = [
+    "curve25519",
+    "ed25519",
+    "ed25519/internal/edwards25519",
+    "internal/chacha20",
+    "poly1305",
+    "ssh"
+  ]
+  revision = "1875d0a70c90e57f11972aefd42276df65e895b9"
 
 [solve-meta]
   analyzer-name = "dep"

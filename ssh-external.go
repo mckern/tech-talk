@@ -60,23 +60,12 @@ func externalSSH(so socketio.Socket) {
 		log.Panicf("Not sure what to do with host: ", *sshHost)
 	}
 
-	// If SSH was explicitly set, then prefer it.
-	if *sshHost != defaultHost {
-		log.Printf("Using external SSH client for %s\n", *sshHost)
-		c = exec.Command("/usr/bin/ssh", args...)
-	} else {
-		// On Mac we should have `/usr/bin/login` which does not require root,
-		// so there we use it. Otherwise just start an SSH session with the
-		// current user on localhost to get a shell without root.
-		if checkAccess("/usr/bin/login") {
-			log.Printf("Using /usr/bin/login for shell as %s\n", currentUser.Username)
-			c = exec.Command("/usr/bin/login", "-f", currentUser.Username)
-		} else {
-			log.Printf("Using external SSH client for %s\n", *sshHost)
-			c = exec.Command("/usr/bin/ssh", args...)
-		}
-	}
+	screenName := "demo"
 
+	log.Printf("Attaching to screen session %s\n", screenName)
+	c = exec.Command("/usr/bin/screen", "-xRR", screenName)
+
+	log.Printf("Command: /usr/bin/screen -xRR %v\n", screenName)
 	f, err := pty.Start(c)
 	if err != nil {
 		panic(err)

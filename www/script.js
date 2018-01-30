@@ -77,9 +77,12 @@ function toggleTerm() {
 }
 
 function toggleAllTerms() {
-  toggleTerm();
   if (slideshow.clone && !slideshow.clone.closed) {
+    console.log("calling for clone");
     slideshow.clone.toggleTerm();
+  } else {
+    console.log("calling for main window");
+    toggleTerm();
   }
 }
 
@@ -90,7 +93,7 @@ function reconnectTerm() {
 // Toggle either from keypress or pressing the close button.
 window.addEventListener('keyup', (event) => {
   //console.log(event);
-  if (event.keyCode === 192 /* Key: ~ */) {
+  if (event.keyCode == 192 && (event.ctrlKey || event.metaKey) /* Key: Cmd + ~ */) {
     // toggleTerm();
     toggleAllTerms();
 

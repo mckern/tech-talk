@@ -112,12 +112,15 @@ kbd {
 }
 
 #terminal iframe {
-  width: 100%;
-  height: 95vh;
-  padding: 0;
-  margin: 0;
+  background: #000;
   border: none;
+  height: 95vh;
+  margin: 0;
+  opacity: 1.00;
+  padding: 0;
   shadow: none;
+  width: 100%;
+
 }
 
 #terminal a.btn {
@@ -126,10 +129,9 @@ kbd {
   cursor: pointer;
   display: block;
   float: left;
-  height: 5vh;
-  margin-top: -5px;
-  margin: 0;
-  padding-top: 6px;
+  height: 7vh;
+  margin: -7px 0 0;
+  padding-top: .75em;
   text-align: center;
   width: 50%;
 }
@@ -137,4 +139,5 @@ kbd {
 #terminal-frame {
   background: #000;
   opacity: 1.00;
+  background: #000;
 }

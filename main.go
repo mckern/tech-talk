@@ -11,13 +11,15 @@ import (
 	"os/user"
 	"path"
 	"path/filepath"
+	"runtime"
 	"text/template"
 	"time"
 
+	"github.com/araddon/dateparse"
 	flag "github.com/spf13/pflag"
 
-	"github.com/elazarl/go-bindata-assetfs"
-	"github.com/googollee/go-socket.io"
+	assetfs "github.com/elazarl/go-bindata-assetfs"
+	socketio "github.com/googollee/go-socket.io"
 )
 
 type templateValues struct {
@@ -25,22 +27,28 @@ type templateValues struct {
 	Markdown string
 }
 
-const defaultHost = "localhost"
-const techTalkVersion = "1.3.0"
+const (
+	defaultHost     = "localhost"
+	techTalkVersion = "1.3.1"
+	iso8601         = "2006-01-02T15:04:05-0700"
+)
 
-var indexTemplate *template.Template
-var socketServer *socketio.Server
-var mdFilename string
-var currentUser *user.User
+var (
+	indexTemplate *template.Template
+	socketServer  *socketio.Server
+	mdFilename    string
+	currentUser   *user.User
 
-var screen *bool
-var sshType *string
-var sshHost *string
-var key *string
-var pass *string
-var port *int
-var noBrowser *bool
-var version *bool
+	screen    *bool
+	sshType   *string
+	sshHost   *string
+	key       *string
+	pass      *string
+	port      *int
+	noBrowser *bool
+	version   *bool
+	buildDate string
+)
 
 // Checks if a file exists and can be accessed.
 func checkAccess(filename string) bool {
@@ -124,12 +132,14 @@ func createSocketServer() {
 	})
 }
 
-func main() {
+func init() {
 	u, err := user.Current()
 	if err != nil {
 		log.Fatal("Couldn't get current user!")
 	}
 	currentUser = u
+
+	prettyDate, _ := dateparse.ParseAny(buildDate)
 
 	flag.Usage = func() {
 		fmt.Fprintf(os.Stderr, "Usage: tech-talk [slides.md]\n")
@@ -162,8 +172,11 @@ func main() {
 	args := flag.Args()
 
 	if *version {
-		fmt.Printf("tech-talk: %s\n", techTalkVersion)
-		return
+		fmt.Printf("tech-talk\t%s\n", techTalkVersion)
+		fmt.Print("Build information:\n")
+		fmt.Printf("    go version: %s\n", runtime.Version())
+		fmt.Printf("    build date: %s\n", prettyDate.Format(iso8601))
+		os.Exit(0)
 	}
 
 	if len(args) > 0 {
@@ -173,7 +186,9 @@ func main() {
 
 		mdFilename = args[0]
 	}
+}
 
+func main() {
 	// Start web sockets
 	createSocketServer()
 	http.Handle("/wetty/socket.io/", socketServer)

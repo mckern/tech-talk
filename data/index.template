@@ -4,7 +4,8 @@
     <title>Tech Talk</title>
     <meta charset="utf-8">
     <link rel="icon" type="image/png" href="/static/favicon.png" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    <link rel="stylesheet" href="/static/animate.min.css" />
+    <link rel="stylesheet" href="/static/reset.css" />
     <link rel="stylesheet" href="/static/style.css" />
     <link rel="stylesheet" href="/overrides.css" />
   </head>
@@ -18,8 +19,8 @@
       <a class="btn close">Close</a>
       <a class="btn reconnect">Reconnect</a>
     </div>
-    <script type="text/javascript" src="/static/remark.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured"></script>
+    <script type="text/javascript" src="/static/remark.min.js"></script>
+    <script type="text/javascript" src="/static/MathJax/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured"></script>
     <script type="text/javascript" src="/static/script.js"></script>
   </body>
 </html>

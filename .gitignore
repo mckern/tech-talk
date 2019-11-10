@@ -3,3 +3,4 @@ bindata.go
 tech-talk
 tech-talk.exe
 vendor
+build/

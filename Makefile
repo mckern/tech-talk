@@ -13,6 +13,7 @@ UPX := $(shell command -v upx)
 $(BUILDDIR)/$(NAME): export CGO_ENABLED = 0
 $(BUILDDIR)/$(NAME):
 	set | grep GO
+	$(GOPATH)/bin/go-bindata data www/...
 	go build \
 	  -o $(BUILDDIR)/$(NAME) \
 	  -ldflags "-s -w -X main.versionNumber=$(VERSION) -X main.gitCommit=$(GIT_COMMIT) -X 'main.buildDate=$(BUILD_DATE)'" \
@@ -29,7 +30,7 @@ else
 endif
 
 clean:
-	$(RM) $(BUILDDIR)/$(NAME)
+	$(RM) -v $(BUILDDIR)/$(NAME) bindata.go
 
 cleanest: clean
 	$(RM) -rv vendor

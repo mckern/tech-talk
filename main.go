@@ -71,33 +71,48 @@ func copyToSocket(r io.Reader, so socketio.Socket) {
 	}
 }
 
+func cacheControlWrapper(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", "no-store")
+		h.ServeHTTP(w, r)
+	})
+}
+
 // Return an HTML page with the slideshow
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 	// If we aren't getting the index itself, serve static files in the
 	// same directory as the input Markdown slides file.
 	if r.URL.Path != "/" {
-		http.FileServer(http.Dir(filepath.Dir(mdFilename))).ServeHTTP(w, r)
+		dir, _ := os.Getwd()
+		log.Printf("fetching file from %q\n", dir)
+		cacheControlWrapper(http.FileServer(http.Dir(filepath.Dir(mdFilename)))).ServeHTTP(w, r)
 		return
 	}
 
-	var data templateValues
+	var (
+		data templateValues
+		b    []byte
+	)
 
 	// Read the file on each request so that updates get applied when working
 	// on the slideshow.
-	var b []byte
-
 	if mdFilename != "" {
+		log.Printf("serving markdown file %q\n", mdFilename)
 		b, _ = ioutil.ReadFile(mdFilename)
-		data.Markdown = string(b)
 	} else {
+		log.Println("serving default markdown example")
 		b, _ = Asset("data/example.md")
-		data.Markdown = string(b)
 	}
+	data.Markdown = string(b)
 
+	// set default markdown class prefixes from the assetFS
 	b, _ = Asset("data/prefix.md")
 	data.Prefix = string(b)
 
+	// don't ever cache anything -- it's a SLIDE SHOW
 	w.Header().Add("Content-Type", "text/html")
+	w.Header().Set("Cache-Control", "no-store")
+
 	indexTemplate.Execute(w, data)
 }
 
@@ -201,8 +216,13 @@ func main() {
 
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
-			http.FileServer(
-				&assetfs.AssetFS{Asset: Asset, AssetDir: AssetDir, AssetInfo: AssetInfo, Prefix: "www"})))
+			cacheControlWrapper(http.FileServer(
+				&assetfs.AssetFS{
+					Asset:     Asset,
+					AssetDir:  AssetDir,
+					AssetInfo: AssetInfo,
+					Prefix:    "www",
+				}))))
 
 	s := &http.Server{
 		Addr:           fmt.Sprintf(":%d", *port),

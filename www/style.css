@@ -4,6 +4,7 @@
 
 body {
   font-family: 'Lato', 'Arial', sans-serif;
+  font-size: 32px;
 }
 
 h1, h2, h3 {
@@ -31,12 +32,6 @@ td {
   padding: 12px;
   border-bottom: 1px solid #f2f2f2;
   border-right: 1px solid #f2f2f2;
-}
-
-code.remark-inline-code {
-  background: #f2f2f2;
-  padding: 2px 6px;
-  border-radius: 3px;
 }
 
 kbd {
@@ -70,37 +65,10 @@ kbd {
   border-radius: 3px;
 }
 
-.remark-container {
-  background-color: #333;
-}
-
-.remark-slide-content {
-  color: #000;
-  background-color: #fff;
-  font-size: 25px;
-  border-top: 6px solid #0086b3;
-}
-
-.remark-slide-content h1 {
-  font-size: 50px;
-}
-
-.remark-slide-scaler {
-  box-shadow: 0 0 30px #888;
-}
-
-.remark-code, .remark-inline-code {
-  font-family: 'Ubuntu Mono';
-  font-size: 19pt;
-}
-
-.remark-slide-number {
-  opacity: 0.1;
-}
-
 #terminal {
   animation-duration: 0.3s;
-  animation-timing: ease-out;
+  animation-timing-function: ease-out;
+  background: #000;
   bottom: 0;
   font-size: 0.80em;
   left: 0;
@@ -114,26 +82,33 @@ kbd {
 #terminal iframe {
   background: #000;
   border: none;
-  height: 95vh;
+  height: 93vh;
   margin: 0;
   opacity: 1.00;
   padding: 0;
-  shadow: none;
+  box-shadow: none;
   width: 100%;
+}
 
+#terminal .buttons {
+  display: flex;
+  justify-content: space-evenly;
+  height: 6vh;
 }
 
 #terminal a.btn {
-  background: #000;
+  flex-grow: 30;
+  background: #312b2b;
+  box-sizing: border-box;
   color: #fff;
   cursor: pointer;
   display: block;
-  float: left;
-  height: 7vh;
-  margin: -7px 0 0;
-  padding-top: .75em;
+  font-size: 0.75em;
+  margin: 4px;
+  padding: .75em;
+
+  max-width: 25%;
   text-align: center;
-  width: 50%;
 }
 
 #terminal-frame {

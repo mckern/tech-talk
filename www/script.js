@@ -134,8 +134,3 @@ MathJax.Hub.Config({
 })
 
 MathJax.Hub.Configured()
-
-console.log(Document.hasFocus())
-console.log(Document.activeElement)
-
-document.getElementById('body#remark-container').focus()

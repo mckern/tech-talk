@@ -15,9 +15,11 @@
 {{ .Markdown }}
     </textarea>
     <div id="terminal" class="animated slideOutUp">
-      <iframe id="terminal-frame" seamless src="/static/wetty/index.html"></iframe>
-      <a class="btn close">Close</a>
-      <a class="btn reconnect">Reconnect</a>
+      <iframe id="terminal-frame" src="/static/wetty/index.html"></iframe>
+      <div class="buttons">
+        <a class="btn close">Close</a>
+        <a class="btn reconnect">Reconnect</a>
+      </div>
     </div>
     <script type="text/javascript" src="/static/remark.min.js"></script>
     <script type="text/javascript" src="/static/MathJax/MathJax.js?config=TeX-MML-AM_CHTML&delayStartupUntil=configured"></script>

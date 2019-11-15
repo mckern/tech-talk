@@ -5,6 +5,7 @@ go 1.13
 require (
 	github.com/araddon/dateparse v0.0.0-20190622164848-0fb0a474d195
 	github.com/elazarl/go-bindata-assetfs v1.0.0
+	github.com/go-bindata/go-bindata v3.1.2+incompatible // indirect
 	github.com/googollee/go-engine.io v1.0.1
 	github.com/googollee/go-socket.io v1.0.1
 	github.com/gorilla/websocket v1.4.0
